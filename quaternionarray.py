@@ -35,6 +35,12 @@ def mult(p, q):
     pq = -1 * pq
     return pq
 
-if __name__ == '__main__':
-    pass
-
+def nlerp(targettime, time, q):
+    '''Nlerp, q quaternion array interpolated from time to targettime'''
+    i_interp = np.interp(targettime, time, np.arange(len(time)))
+    i_interp_int = np.floor(i_interp).astype(np.int)
+    t_matrix = i_interp - i_interp_int
+    #vertical array
+    t_matrix = t_matrix[:,np.newaxis]
+    q_interp = q[i_interp_int,:] * (1 - t_matrix) + q[i_interp_int + 1,:] * t_matrix
+    return q_interp
