@@ -4,6 +4,10 @@ def inv(q):
     """Inverse of quaternion array q"""
     return q * np.array([-1,-1,-1,1])
 
+def norm(q):
+    """Normalize quaternion array q to unit quaternions"""
+    return q/np.sqrt(np.sum(np.square(q),axis=1))[:,np.newaxis]
+
 def rotate(q, v):
     """Rotate or array of vectors v by quaternion q"""
     if v.ndim == 1:

@@ -14,6 +14,8 @@ class TestQuaternionArray(unittest.TestCase):
         self.q1 = np.array([ 0.50487417,  0.61426059,  0.60118994,  0.07972857])
         self.q1inv = np.array([ -0.50487417,  -0.61426059,  -0.60118994,  0.07972857])
         self.q2 = np.array([ 0.43561544,  0.33647027,  0.40417115,  0.73052901])
+        self.qtonormalize = np.array([[1,2,3,4],[2,3,4,5]])
+        self.qnormalized = np.array([[0.18257419,  0.36514837,  0.54772256,  0.73029674],[ 0.27216553,  0.40824829,  0.54433105,  0.68041382]])
         self.vec = np.array([ 0.57734543,  0.30271255,  0.75831218])
         #results from Quaternion
         self.mult_result = np.array([-0.44954009, -0.53339352, -0.37370443,  0.61135101])
@@ -25,6 +27,10 @@ class TestQuaternionArray(unittest.TestCase):
 
     def test_inv(self):
         assert (qarray.inv(self.q1) - self.q1inv).std() < self.EPSILON
+
+    def test_norm(self):
+        assert (qarray.norm(self.qtonormalize) - self.qnormalized).std() < self.EPSILON
+
 
     def test_mult_onequaternion(self):
         my_mult_result = qarray.mult(self.q1,self.q2)
