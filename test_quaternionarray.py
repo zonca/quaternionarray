@@ -12,6 +12,7 @@ class TestQuaternionArray(unittest.TestCase):
     def setUp(self):
         #data
         self.q1 = np.array([ 0.50487417,  0.61426059,  0.60118994,  0.07972857])
+        self.q1inv = np.array([ -0.50487417,  -0.61426059,  -0.60118994,  0.07972857])
         self.q2 = np.array([ 0.43561544,  0.33647027,  0.40417115,  0.73052901])
         self.vec = np.array([ 0.57734543,  0.30271255,  0.75831218])
         #results from Quaternion
@@ -21,6 +22,9 @@ class TestQuaternionArray(unittest.TestCase):
 
         # error on floating point equality tests
         self.EPSILON = 1e-7
+
+    def test_inv(self):
+        assert (qarray.inv(self.q1) - self.q1inv).std() < self.EPSILON
 
     def test_mult_onequaternion(self):
         my_mult_result = qarray.mult(self.q1,self.q2)

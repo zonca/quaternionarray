@@ -1,13 +1,16 @@
 import numpy as np
 
+def inv(q):
+    """Inverse of quaternion array q"""
+    return q * np.array([-1,-1,-1,1])
+
 def rotate(q, v):
     """Rotate or array of vectors v by quaternion q"""
     if v.ndim == 1:
         qv = np.append(v,0)
     else:
         qv = np.hstack([v,np.zeros((len(v),1))])
-    #opposite sign due to different convention on the basis vectors
-    return -1 * mult(mult(q,qv),q * np.array([1,1,1,-1]))[:,:3]
+    return mult(mult(q,qv),inv(q))[:,:3]
 
 def mult(p, q):
     '''Multiply arrays of quaternions, ndarray objects with 4 columns defined as x y z w
