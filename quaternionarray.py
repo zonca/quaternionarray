@@ -18,10 +18,10 @@ def rotate(q, v):
     return mult(mult(q,qv),inv(q))[:,:3]
 
 def mult(p, q):
-    '''Multiply arrays of quaternions, ndarray objects with 4 columns defined as x y z w
+    """Multiply arrays of quaternions, ndarray objects with 4 columns defined as x y z w
     see:
     http://en.wikipedia.org/wiki/Quaternions#Quaternions_and_the_geometry_of_R3
-    '''
+    """
     if p.ndim == 1 and q.ndim > 1:
         p = np.tile(p,(q.shape[0],1))
     if q.ndim == 1 and p.ndim > 1:
@@ -44,7 +44,7 @@ def mult(p, q):
     return pq
 
 def nlerp(targettime, time, q):
-    '''Nlerp, q quaternion array interpolated from time to targettime'''
+    """Nlerp, q quaternion array interpolated from time to targettime"""
     i_interp = np.interp(targettime, time, np.arange(len(time)))
     i_interp_int = np.floor(i_interp).astype(np.int)
     t_matrix = i_interp - i_interp_int
