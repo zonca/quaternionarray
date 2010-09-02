@@ -54,3 +54,7 @@ class TestQuaternionArray(unittest.TestCase):
         my_rot_result = qarray.rotate(np.vstack([self.q1,self.q2]), self.vec)
         print(my_rot_result)
         assert (my_rot_result - np.vstack([self.rot_by_q1, self.rot_by_q2])).std() < self.EPSILON
+
+if __name__ == '__main__':
+    # better to use nose
+    unittest.main()

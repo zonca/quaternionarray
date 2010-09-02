@@ -1,3 +1,15 @@
+"""
+Quaternion array module
+
+A Quaternion array is a ndarray object with 4 columns defined as x y z w
+it can be created simply using np.array.
+
+Example random quaternion array with 3 quaternions:
+>>> np.random.random((3, 4))
+array([[ 0.65587228,  0.53004948,  0.14372156,  0.67375345],
+       [ 0.395546  ,  0.61416382,  0.53622605,  0.4199437 ],
+       [ 0.93493976,  0.43419391,  0.24041596,  0.95863378]])
+"""
 from __future__ import division
 import numpy as np
 
@@ -18,7 +30,7 @@ def rotate(q, v):
     return mult(mult(q,qv),inv(q))[:,:3]
 
 def mult(p, q):
-    """Multiply arrays of quaternions, ndarray objects with 4 columns defined as x y z w
+    """Multiply arrays of quaternions,
     see:
     http://en.wikipedia.org/wiki/Quaternions#Quaternions_and_the_geometry_of_R3
     """
