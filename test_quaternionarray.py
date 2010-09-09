@@ -26,16 +26,18 @@ class TestQuaternionArray(unittest.TestCase):
         self.EPSILON = 1e-7
 
     def test_inv(self):
-        assert (qarray.inv(self.q1) - self.q1inv).std() < self.EPSILON
+        self.assertTrue((qarray.inv(self.q1) - self.q1inv).std() < self.EPSILON)
 
     def test_norm(self):
-        assert (qarray.norm(self.qtonormalize) - self.qnormalized).std() < self.EPSILON
+        self.assertTrue((qarray.norm(self.qtonormalize) - self.qnormalized).std() < self.EPSILON)
 
 
     def test_mult_onequaternion(self):
         my_mult_result = qarray.mult(self.q1,self.q2)
         print(my_mult_result)
-        assert (my_mult_result - self.mult_result).std() < self.EPSILON
+        self.assertEquals( my_mult_result.shape[0], 1)
+        self.assertEquals( my_mult_result.shape[1], 4)
+        self.assertTrue((my_mult_result - self.mult_result).std() < self.EPSILON)
 
     def test_mult_qarray(self):
         dim = (3,1)
@@ -43,17 +45,17 @@ class TestQuaternionArray(unittest.TestCase):
         qarray2 = np.tile(self.q2, dim)
         my_mult_result = qarray.mult(qarray1, qarray2)
         print(my_mult_result)
-        assert (my_mult_result - np.tile(self.mult_result,dim)).std() < self.EPSILON
+        self.assertTrue((my_mult_result - np.tile(self.mult_result,dim)).std() < self.EPSILON)
 
     def test_rotate_onequaternion(self):
         my_rot_result = qarray.rotate(self.q1, self.vec)
         print(my_rot_result)
-        assert (my_rot_result - self.rot_by_q1).std() < self.EPSILON
+        self.assertTrue((my_rot_result - self.rot_by_q1).std() < self.EPSILON)
         
     def test_rotate_qarray(self):
         my_rot_result = qarray.rotate(np.vstack([self.q1,self.q2]), self.vec)
         print(my_rot_result)
-        assert (my_rot_result - np.vstack([self.rot_by_q1, self.rot_by_q2])).std() < self.EPSILON
+        self.assertTrue((my_rot_result - np.vstack([self.rot_by_q1, self.rot_by_q2])).std() < self.EPSILON)
 
 if __name__ == '__main__':
     # better to use nose
