@@ -62,5 +62,5 @@ def nlerp(targettime, time, q):
     t_matrix = i_interp - i_interp_int
     #vertical array
     t_matrix = t_matrix[:,np.newaxis]
-    q_interp = q[i_interp_int,:] * (1 - t_matrix) + q[min(i_interp_int + 1,len(time)),:] * t_matrix
+    q_interp = q[i_interp_int,:] * (1 - t_matrix) + q[np.clip(i_interp_int + 1,0,len(time)-1),:] * t_matrix
     return q_interp
