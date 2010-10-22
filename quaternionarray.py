@@ -22,7 +22,7 @@ def norm(q):
     return q/np.sqrt(np.sum(np.square(q),axis=1))[:,np.newaxis]
 
 def rotate(q, v):
-    """Rotate or array of vectors v by quaternion q"""
+    """Rotate vector or array of vectors v by quaternion q"""
     if v.ndim == 1:
         qv = np.append(v,0)
     else:
