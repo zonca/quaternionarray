@@ -13,13 +13,17 @@ array([[ 0.65587228,  0.53004948,  0.14372156,  0.67375345],
 from __future__ import division
 import numpy as np
 
+def array_dot(a, b):
+    '''Dot product of a lists of arrays'''
+    return np.sum(a*b, axis=1)
+
 def inv(q):
     """Inverse of quaternion array q"""
     return q * np.array([-1,-1,-1,1])
 
 def norm(q):
     """Normalize quaternion array q to unit quaternions"""
-    return q/np.sqrt(np.sum(np.square(q),axis=1))[:,np.newaxis]
+    return q/np.sqrt(array_dot(q,q))[:,np.newaxis]
 
 def rotate(q, v):
     """Rotate vector or array of vectors v by quaternion q"""
@@ -48,7 +52,7 @@ def mult(p, q):
     qv = q[:,:3]
 
     pq = np.empty_like(p)
-    pq[:,3] =  ps * qs - np.sum(pv*qv, axis=1)
+    pq[:,3] =  ps * qs - array_dot(pv, qv)
     pq[:,:3] = ps[:,np.newaxis] * qv + pv * qs[:,np.newaxis] + np.cross(pv , qv)
 
     #opposite sign due to different convention on the basis vectors
