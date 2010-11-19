@@ -40,6 +40,7 @@ class TestQuaternionArray(unittest.TestCase):
         self.assertTrue((qarray.inv(self.q1) - self.q1inv).std() < self.EPSILON)
 
     def test_norm(self):
+        np.testing.assert_array_almost_equal(qarray.norm(self.q1), self.q1/np.linalg.norm(self.q1))
         self.assertTrue((qarray.norm(self.qtonormalize) - self.qnormalized).std() < self.EPSILON)
 
 

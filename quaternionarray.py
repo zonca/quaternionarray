@@ -26,7 +26,10 @@ def inv(q):
 
 def norm(q):
     """Normalize quaternion array q or array list to unit quaternions"""
-    return q/np.sqrt(arraylist_dot(q,q))[:,np.newaxis]
+    if q.ndim == 1:
+        return q/np.linalg.norm(q)
+    else:
+        return q/np.sqrt(arraylist_dot(q,q))[:,np.newaxis]
 
 def rotate(q, v):
     """Rotate vector or array of vectors v by quaternion q"""
