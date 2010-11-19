@@ -26,15 +26,15 @@ class TestQuaternionArray(unittest.TestCase):
         # error on floating point equality tests
         self.EPSILON = 1e-7
 
-    def test_array_dot_onedimarrays(self):
-        np.testing.assert_array_almost_equal(qarray.array_dot(self.vec, self.vec +1), np.dot(self.vec, self.vec +1)) 
+    def test_arraylist_dot_onedimarrays(self):
+        np.testing.assert_array_almost_equal(qarray.arraylist_dot(self.vec, self.vec +1), np.dot(self.vec, self.vec +1)) 
 
-    def test_array_dot_1dimbymultidim(self):
-        np.testing.assert_array_almost_equal(qarray.array_dot(self.vec2, self.vec), np.dot(self.vec2,self.vec)) 
+    def test_arraylist_dot_1dimbymultidim(self):
+        np.testing.assert_array_almost_equal(qarray.arraylist_dot(self.vec2, self.vec), np.dot(self.vec2,self.vec)) 
 
-    def test_array_dot_multidim(self):
+    def test_arraylist_dot_multidim(self):
         result = np.hstack(np.dot(v1,v2) for v1,v2 in zip(self.vec2, self.vec2+1))
-        np.testing.assert_array_almost_equal(qarray.array_dot(self.vec2, self.vec2 +1), result) 
+        np.testing.assert_array_almost_equal(qarray.arraylist_dot(self.vec2, self.vec2 +1), result) 
 
     def test_inv(self):
         self.assertTrue((qarray.inv(self.q1) - self.q1inv).std() < self.EPSILON)
