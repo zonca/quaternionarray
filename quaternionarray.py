@@ -15,7 +15,10 @@ import numpy as np
 
 def array_dot(a, b):
     '''Dot product of a lists of arrays'''
-    return np.sum(a*b, axis=1)
+    if a.ndim == 1 and b.ndim == 1:
+        return np.dot(a,b)
+    else:
+        return np.sum(a*b, axis=1)
 
 def inv(q):
     """Inverse of quaternion array q"""
