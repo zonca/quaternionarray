@@ -16,7 +16,7 @@ import numpy as np
 def arraylist_dot(a, b):
     '''Dot product of a lists of arrays, returns a column array'''
     if a.ndim == 1 and b.ndim == 1:
-        return np.dot(a,b)
+        return np.array([[np.dot(a,b)]])
     else:
         return np.sum(a*b, axis=1)[:,np.newaxis]
 
