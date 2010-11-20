@@ -14,11 +14,11 @@ from __future__ import division
 import numpy as np
 
 def arraylist_dot(a, b):
-    '''Dot product of a lists of arrays'''
+    '''Dot product of a lists of arrays, returns a column array'''
     if a.ndim == 1 and b.ndim == 1:
         return np.dot(a,b)
     else:
-        return np.sum(a*b, axis=1)
+        return np.sum(a*b, axis=1)[:,np.newaxis]
 
 def inv(q):
     """Inverse of quaternion array q"""
@@ -29,7 +29,7 @@ def norm(q):
     if q.ndim == 1:
         return q/np.linalg.norm(q)
     else:
-        return q/np.sqrt(arraylist_dot(q,q))[:,np.newaxis]
+        return q/np.sqrt(arraylist_dot(q,q))
 
 def rotate(q, v):
     """Rotate vector or array of vectors v by quaternion q"""
@@ -58,7 +58,7 @@ def mult(p, q):
     qv = q[:,:3]
 
     pq = np.empty_like(p)
-    pq[:,3] =  ps * qs - arraylist_dot(pv, qv)
+    pq[:,3] =  ps * qs - arraylist_dot(pv, qv).flatten()
     pq[:,:3] = ps[:,np.newaxis] * qv + pv * qs[:,np.newaxis] + np.cross(pv , qv)
 
     #opposite sign due to different convention on the basis vectors

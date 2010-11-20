@@ -27,10 +27,10 @@ class TestQuaternionArray(unittest.TestCase):
         np.testing.assert_array_almost_equal(qarray.arraylist_dot(self.vec, self.vec +1), np.dot(self.vec, self.vec +1)) 
 
     def test_arraylist_dot_1dimbymultidim(self):
-        np.testing.assert_array_almost_equal(qarray.arraylist_dot(self.vec2, self.vec), np.dot(self.vec2,self.vec)) 
+        np.testing.assert_array_almost_equal(qarray.arraylist_dot(self.vec2, self.vec), np.dot(self.vec2,self.vec)[:,np.newaxis]) 
 
     def test_arraylist_dot_multidim(self):
-        result = np.hstack(np.dot(v1,v2) for v1,v2 in zip(self.vec2, self.vec2+1))
+        result = np.hstack(np.dot(v1,v2) for v1,v2 in zip(self.vec2, self.vec2+1))[:,np.newaxis]
         np.testing.assert_array_almost_equal(qarray.arraylist_dot(self.vec2, self.vec2 +1), result) 
 
     def test_inv(self):
