@@ -24,12 +24,15 @@ def inv(q):
     """Inverse of quaternion array q"""
     return q * np.array([-1,-1,-1,1])
 
+def amplitude(v):
+    return np.sqrt(arraylist_dot(v,v))
+
 def norm(q):
     """Normalize quaternion array q or array list to unit quaternions"""
+    normq = q/amplitude(q)
     if q.ndim == 1:
-        return q/np.linalg.norm(q)
-    else:
-        return q/np.sqrt(arraylist_dot(q,q))
+        normq = normq.flatten()
+    return normq
 
 def rotate(q, v):
     """Rotate vector or array of vectors v by quaternion q"""
@@ -73,4 +76,4 @@ def nlerp(targettime, time, q):
     #vertical array
     t_matrix = t_matrix[:,np.newaxis]
     q_interp = q[i_interp_int,:] * (1 - t_matrix) + q[np.clip(i_interp_int + 1,0,len(time)-1),:] * t_matrix
-    return q_interp
+    return norm(q_interp)
