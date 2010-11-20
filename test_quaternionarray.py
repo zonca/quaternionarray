@@ -19,12 +19,9 @@ class TestQuaternionArray(unittest.TestCase):
         self.vec = np.array([ 0.57734543,  0.30271255,  0.75831218])
         self.vec2 = np.array([[ 0.57734543,  8.30271255,  5.75831218],[ 1.57734543,  3.30271255,  0.75831218]])
         #results from Quaternion
-        self.mult_result = np.array([-0.44954009, -0.53339352, -0.37370443,  0.61135101])
-        self.rot_by_q1 = np.array([0.4176698, 0.84203849, 0.34135482])
-        self.rot_by_q2 = np.array([0.8077876, 0.3227185, 0.49328689])
-
-        # error on floating point equality tests
-        self.EPSILON = 1e-7
+        self.mult_result = np.array([[-0.44954009, -0.53339352, -0.37370443,  0.61135101]])
+        self.rot_by_q1 = np.array([[0.4176698, 0.84203849, 0.34135482]])
+        self.rot_by_q2 = np.array([[0.8077876, 0.3227185, 0.49328689]])
 
     def test_arraylist_dot_onedimarrays(self):
         np.testing.assert_array_almost_equal(qarray.arraylist_dot(self.vec, self.vec +1), np.dot(self.vec, self.vec +1)) 
@@ -37,33 +34,33 @@ class TestQuaternionArray(unittest.TestCase):
         np.testing.assert_array_almost_equal(qarray.arraylist_dot(self.vec2, self.vec2 +1), result) 
 
     def test_inv(self):
-        self.assertTrue((qarray.inv(self.q1) - self.q1inv).std() < self.EPSILON)
+        np.testing.assert_array_almost_equal(qarray.inv(self.q1) , self.q1inv)
 
     def test_norm(self):
         np.testing.assert_array_almost_equal(qarray.norm(self.q1), self.q1/np.linalg.norm(self.q1))
-        self.assertTrue((qarray.norm(self.qtonormalize) - self.qnormalized).std() < self.EPSILON)
+        np.testing.assert_array_almost_equal(qarray.norm(self.qtonormalize) , self.qnormalized)
 
 
     def test_mult_onequaternion(self):
         my_mult_result = qarray.mult(self.q1, self.q2)
         self.assertEquals( my_mult_result.shape[0], 1)
         self.assertEquals( my_mult_result.shape[1], 4)
-        self.assertTrue((my_mult_result - self.mult_result).std() < self.EPSILON)
+        np.testing.assert_array_almost_equal(my_mult_result , self.mult_result)
 
     def test_mult_qarray(self):
         dim = (3, 1)
         qarray1 = np.tile(self.q1, dim)
         qarray2 = np.tile(self.q2, dim)
         my_mult_result = qarray.mult(qarray1, qarray2)
-        self.assertTrue((my_mult_result - np.tile(self.mult_result,dim)).std() < self.EPSILON)
+        np.testing.assert_array_almost_equal(my_mult_result , np.tile(self.mult_result,dim))
 
     def test_rotate_onequaternion(self):
         my_rot_result = qarray.rotate(self.q1, self.vec)
-        self.assertTrue((my_rot_result - self.rot_by_q1).std() < self.EPSILON)
+        np.testing.assert_array_almost_equal(my_rot_result , self.rot_by_q1)
         
     def test_rotate_qarray(self):
         my_rot_result = qarray.rotate(np.vstack([self.q1,self.q2]), self.vec)
-        self.assertTrue((my_rot_result - np.vstack([self.rot_by_q1, self.rot_by_q2])).std() < self.EPSILON)
+        np.testing.assert_array_almost_equal(my_rot_result , np.vstack([self.rot_by_q1, self.rot_by_q2]))
 
 if __name__ == '__main__':
     # better to use nose
