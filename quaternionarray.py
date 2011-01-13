@@ -62,10 +62,12 @@ def mult(p, q):
 
     pq = np.empty_like(p)
     pq[:,3] =  ps * qs - arraylist_dot(pv, qv).flatten()
-    pq[:,:3] = ps[:,np.newaxis] * qv + pv * qs[:,np.newaxis] + np.cross(pv , qv)
+    pq[:,:3] = ps[:,np.newaxis] * qv 
+    pq[:,:3] += pv * qs[:,np.newaxis] 
+    pq[:,:3] += np.cross(pv , qv)
 
     #opposite sign due to different convention on the basis vectors
-    pq = -1 * pq
+    pq *= -1
     return pq
 
 def nlerp(targettime, time, q):
