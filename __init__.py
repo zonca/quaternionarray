@@ -75,7 +75,9 @@ def nlerp(targettime, time, q):
     i_interp = np.interp(targettime, time, np.arange(len(time)))
     i_interp_int = np.floor(i_interp).astype(np.int)
     t_matrix = i_interp - i_interp_int
+    del i_interp
     #vertical array
     t_matrix = t_matrix[:,np.newaxis]
-    q_interp = q[i_interp_int,:] * (1 - t_matrix) + q[np.clip(i_interp_int + 1,0,len(time)-1),:] * t_matrix
+    q_interp = q[i_interp_int,:] * (1 - t_matrix) 
+    q_interp += q[np.clip(i_interp_int + 1,0,len(time)-1),:] * t_matrix
     return norm(q_interp)

@@ -62,6 +62,19 @@ class TestQuaternionArray(unittest.TestCase):
         my_rot_result = qarray.rotate(np.vstack([self.q1,self.q2]), self.vec)
         np.testing.assert_array_almost_equal(my_rot_result , np.vstack([self.rot_by_q1, self.rot_by_q2]))
 
+    def test_nlerp(self):
+        q = qarray.norm(np.array([[2., 3, 4, 5],
+                      [6, 7, 8, 9]]))
+        q_interp = qarray.nlerp(
+            [0, 3, 4.5, 9], 
+            [0, 9], 
+            q)
+        self.assertEquals(len(q_interp), 4)
+        np.testing.assert_array_almost_equal(q_interp[0], q[0])
+        np.testing.assert_array_almost_equal(q_interp[-1], q[-1])
+        np.testing.assert_array_almost_equal(q_interp[1], qarray.norm(q[0] * 2/3 + q[1]/3))
+        np.testing.assert_array_almost_equal(q_interp[2], qarray.norm((q[0] + q[1])/2))
+
 if __name__ == '__main__':
     # better to use nose
     unittest.main()
