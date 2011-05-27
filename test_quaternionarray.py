@@ -84,7 +84,7 @@ class TestQuaternionArray(unittest.TestCase):
 
     def test_rotation(self):
         np.testing.assert_array_almost_equal(
-            qarray.rotation(np.array([0,0,1]), np.radians(30)),         np.array([0, 0, 1/2., np.sqrt(3)/2]) 
+            qarray.rotation(np.array([0,0,1]), np.radians(30)),  np.array([0, 0, np.sin(np.radians(15)), np.cos(np.radians(15))])
             )
 
 if __name__ == '__main__':

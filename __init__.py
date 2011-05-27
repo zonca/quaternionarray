@@ -88,4 +88,8 @@ def nlerp(targettime, time, q):
 
 def rotation(axis, angle):
     """Rotation quaternions of angles [rad] around axes [already normalized]"""
-    return np.hstack([np.asarray(axis)*np.sin(angle)[:,None],np.cos(angle)[:,None]])
+    try:
+        angle = angle[:,None]
+    except:
+        pass
+    return np.hstack([np.asarray(axis)*np.sin(angle/2.),np.cos(angle/2.)])
