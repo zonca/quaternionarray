@@ -14,7 +14,7 @@ class TestQuaternionArray(unittest.TestCase):
         self.q1 = np.array([ 0.50487417,  0.61426059,  0.60118994,  0.07972857])
         self.q1inv = np.array([ -0.50487417,  -0.61426059,  -0.60118994,  0.07972857])
         self.q2 = np.array([ 0.43561544,  0.33647027,  0.40417115,  0.73052901])
-        self.qtonormalize = np.array([[1,2,3,4],[2,3,4,5]])
+        self.qtonormalize = np.array([[1.,2,3,4],[2,3,4,5]])
         self.qnormalized = np.array([[0.18257419,  0.36514837,  0.54772256,  0.73029674],[ 0.27216553,  0.40824829,  0.54433105,  0.68041382]])
         self.vec = np.array([ 0.57734543,  0.30271255,  0.75831218])
         self.vec2 = np.array([[ 0.57734543,  8.30271255,  5.75831218],[ 1.57734543,  3.30271255,  0.75831218]])
@@ -39,6 +39,13 @@ class TestQuaternionArray(unittest.TestCase):
     def test_norm(self):
         np.testing.assert_array_almost_equal(qarray.norm(self.q1), self.q1/np.linalg.norm(self.q1))
         np.testing.assert_array_almost_equal(qarray.norm(self.qtonormalize) , self.qnormalized)
+
+    def test_norm_inplace(self):
+        q1 = self.q1.reshape([1,4])
+        qarray.norm_inplace(q1)
+        qarray.norm_inplace(self.qtonormalize)
+        np.testing.assert_array_almost_equal(q1, q1/np.linalg.norm(q1))
+        np.testing.assert_array_almost_equal(self.qtonormalize , self.qnormalized)
 
 
     def test_mult_onequaternion(self):
@@ -74,6 +81,11 @@ class TestQuaternionArray(unittest.TestCase):
         np.testing.assert_array_almost_equal(q_interp[-1], q[-1])
         np.testing.assert_array_almost_equal(q_interp[1], qarray.norm(q[0] * 2/3 + q[1]/3))
         np.testing.assert_array_almost_equal(q_interp[2], qarray.norm((q[0] + q[1])/2))
+
+    def test_rotation(self):
+        np.testing.assert_array_almost_equal(
+            qarray.rotation(np.array([0,0,1]), np.radians(30)),         np.array([0, 0, 1/2., np.sqrt(3)/2]) 
+            )
 
 if __name__ == '__main__':
     # better to use nose

@@ -34,6 +34,10 @@ def norm(q):
         normq = normq.flatten()
     return normq
 
+def norm_inplace(q):
+    """Normalize quaternion array q or array list to unit quaternions"""
+    q /= amplitude(q)
+
 def rotate(q, v):
     """Rotate vector or array of vectors v by quaternion q"""
     if v.ndim == 1:
@@ -81,3 +85,7 @@ def nlerp(targettime, time, q):
     q_interp = q[i_interp_int,:] * (1 - t_matrix) 
     q_interp += q[np.clip(i_interp_int + 1,0,len(time)-1),:] * t_matrix
     return norm(q_interp)
+
+def rotation(axis, angle):
+    """Rotation quaternion of angle [rad] around axis [already normalized]"""
+    return np.concatenate([axis*np.sin(angle),[np.cos(angle)]])
