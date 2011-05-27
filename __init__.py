@@ -87,5 +87,5 @@ def nlerp(targettime, time, q):
     return norm(q_interp)
 
 def rotation(axis, angle):
-    """Rotation quaternion of angle [rad] around axis [already normalized]"""
-    return np.concatenate([axis*np.sin(angle),[np.cos(angle)]])
+    """Rotation quaternions of angles [rad] around axes [already normalized]"""
+    return np.hstack([np.asarray(axis)*np.sin(angle)[:,None],np.cos(angle)[:,None]])
