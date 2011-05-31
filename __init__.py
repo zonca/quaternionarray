@@ -86,6 +86,27 @@ def nlerp(targettime, time, q):
     q_interp += q[np.clip(i_interp_int + 1,0,len(time)-1),:] * t_matrix
     return norm(q_interp)
 
+def slerp(targettime, time, q):
+    """Slerp, q quaternion array interpolated from time to targettime"""
+    i_interp = np.interp(targettime, time, np.arange(len(time)))
+    i_interp_int = np.floor(i_interp).astype(np.int)
+    t_matrix = i_interp - i_interp_int
+    del i_interp
+    #vertical array
+    t_matrix = t_matrix[:,np.newaxis]
+    q_interp = q[i_interp_int,:] * (1 - t_matrix) 
+    q_interp += q[np.clip(i_interp_int + 1,0,len(time)-1),:] * t_matrix
+    
+    return norm(q_interp)
+
+def exp(q):
+    """Exponential of a quaternion array"""
+    normv = amplitude(q[:,:3])
+    res = np.zeros_like(q)
+    res[:,3] = np.exp(q[:,3]) * np.cos(normv)
+    res[:,:3] = np.exp(q[:,3]) * q[:,:3] / normv * np.sin(normv)
+    return res
+    
 def rotation(axis, angle):
     """Rotation quaternions of angles [rad] around axes [already normalized]"""
     try:
