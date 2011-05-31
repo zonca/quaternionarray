@@ -87,6 +87,8 @@ def slerp(targettime, time, q):
     q_interp = mult(q[np.clip(i_interp_int + 1,0,len(time)-1),:], inv(q[i_interp_int,:]))
     q_interp = pow(q_interp, t_matrix) 
     q_interp = mult(q_interp, q[i_interp_int,:])
+    t_zero = (t_matrix == 0).flatten()
+    q_interp[t_zero] = q[i_interp_int][t_zero]
     return q_interp
 
 def compute_t(targettime, time):

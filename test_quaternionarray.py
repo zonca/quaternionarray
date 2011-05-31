@@ -85,6 +85,21 @@ class TestQuaternionArray(unittest.TestCase):
         np.testing.assert_array_almost_equal(q_interp[1], qarray.norm(q[0] * 2/3 + q[1]/3))
         np.testing.assert_array_almost_equal(q_interp[2], qarray.norm((q[0] + q[1])/2))
 
+    def test_slerp(self):
+        q = qarray.norm(np.array([[2., 3, 4, 5],
+                      [6, 7, 8, 9]]))
+        time = [0, 9] 
+        targettime = [0, 3, 4.5, 9]
+        q_interp = qarray.slerp(
+            targettime, 
+            time, 
+            q)
+        self.assertEquals(len(q_interp), 4)
+        np.testing.assert_array_almost_equal(q_interp[0], q[0])
+        np.testing.assert_array_almost_equal(q_interp[-1], q[-1])
+        np.testing.assert_array_almost_equal(q_interp[1], qarray.norm(q[0] * 2/3 + q[1]/3),decimal=4)
+        np.testing.assert_array_almost_equal(q_interp[2], qarray.norm((q[0] + q[1])/2),decimal=4)
+
     def test_rotation(self):
         np.testing.assert_array_almost_equal(
             qarray.rotation(np.array([0,0,1]), np.radians(30)),  np.array([0, 0, np.sin(np.radians(15)), np.cos(np.radians(15))])
