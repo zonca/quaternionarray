@@ -71,7 +71,7 @@ def mult(p, q):
     pq[:,:3] += np.cross(pv , qv)
 
     #opposite sign due to different convention on the basis vectors
-    pq *= -1
+    #pq *= -1
     return pq
 
 def nlerp(targettime, time, q):
@@ -84,9 +84,9 @@ def nlerp(targettime, time, q):
 def slerp(targettime, time, q):
     """Slerp, q quaternion array interpolated from time to targettime"""
     i_interp_int, t_matrix = compute_t(targettime, time)
-    q_interp = mult(inv(q[i_interp_int,:]), q[i_interp_int+1,:])
+    q_interp = mult(q[np.clip(i_interp_int + 1,0,len(time)-1),:], inv(q[i_interp_int,:]))
     q_interp = pow(q_interp, t_matrix) 
-    q_interp = mult(q[i_interp_int,:], q_interp)
+    q_interp = mult(q_interp, q[i_interp_int,:])
     return q_interp
 
 def compute_t(targettime, time):
@@ -101,8 +101,8 @@ def exp(q):
     """Exponential of a quaternion array"""
     normv = amplitude(q[:,:3])
     res = np.zeros_like(q)
-    res[:,3] = np.exp(q[:,3]) * np.cos(normv)
-    res[:,:3] = np.exp(q[:,3]) * q[:,:3] / normv 
+    res[:,3:] = np.exp(q[:,3:]) * np.cos(normv)
+    res[:,:3] = np.exp(q[:,3:]) * q[:,:3] / normv 
     res[:,:3] *= np.sin(normv)
     return res
 
@@ -110,9 +110,9 @@ def ln(q):
     """Natural logarithm of a quaternion array"""
     normq = amplitude(q)
     res = np.zeros_like(q)
-    res[:,3] = np.log(normq)
-    res[:,:3] = np.arccos(q[:,3]/normq)
-    res[:,:3] *= norm(q[:,:3])
+    res[:,3:] = np.log(normq)
+    res[:,:3] = norm(q[:,:3])
+    res[:,:3] *= np.arccos(q[:,3:]/normq)
     return res
 
 def pow(q, p):

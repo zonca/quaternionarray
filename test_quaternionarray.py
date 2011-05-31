@@ -18,9 +18,9 @@ class TestQuaternionArray(unittest.TestCase):
         self.qnormalized = np.array([[0.18257419,  0.36514837,  0.54772256,  0.73029674],[ 0.27216553,  0.40824829,  0.54433105,  0.68041382]])
         self.vec = np.array([ 0.57734543,  0.30271255,  0.75831218])
         self.vec2 = np.array([[ 0.57734543,  8.30271255,  5.75831218],[ 1.57734543,  3.30271255,  0.75831218]])
-        self.qeasy = np.array([[.3,.3,.1,.9]])
-        #results from Quaternion
-        self.mult_result = np.array([[-0.44954009, -0.53339352, -0.37370443,  0.61135101]])
+        self.qeasy = np.array([[.3,.3,.1,.9],[.3,.3,.1,.9]])
+        #results from Quaternion CHANGED SIGN TO COMPLY WITH THE ONLINE QUATERNION CALCULATOR
+        self.mult_result = -1*np.array([[-0.44954009, -0.53339352, -0.37370443,  0.61135101]])
         self.rot_by_q1 = np.array([[0.4176698, 0.84203849, 0.34135482]])
         self.rot_by_q2 = np.array([[0.8077876, 0.3227185, 0.49328689]])
 
@@ -73,9 +73,11 @@ class TestQuaternionArray(unittest.TestCase):
     def test_nlerp(self):
         q = qarray.norm(np.array([[2., 3, 4, 5],
                       [6, 7, 8, 9]]))
+        time = [0, 9] 
+        targettime = [0, 3, 4.5, 9]
         q_interp = qarray.nlerp(
-            [0, 3, 4.5, 9], 
-            [0, 9], 
+            targettime, 
+            time, 
             q)
         self.assertEquals(len(q_interp), 4)
         np.testing.assert_array_almost_equal(q_interp[0], q[0])
@@ -91,22 +93,22 @@ class TestQuaternionArray(unittest.TestCase):
     def test_exp(self):
         """Exponential test from: http://world.std.com/~sweetser/java/qcalc/qcalc.html"""
         np.testing.assert_array_almost_equal(
-            qarray.exp(self.qeasy),  np.array([[ 0.71473568,  0.71473568,  0.23824523,  2.22961712]])
+            qarray.exp(self.qeasy),  np.array([[ 0.71473568,  0.71473568,  0.23824523,  2.22961712],[ 0.71473568,  0.71473568,  0.23824523,  2.22961712]])
             )
 
     def test_ln(self):
         """Log test from: http://world.std.com/~sweetser/java/qcalc/qcalc.html"""
         np.testing.assert_array_almost_equal(
-            qarray.ln(self.qeasy),  np.array([[ 0.31041794,  0.31041794,  0.10347265,  0.        ]])
+            qarray.ln(self.qeasy),  np.array([[ 0.31041794,  0.31041794,  0.10347265,  0.        ],[ 0.31041794,  0.31041794,  0.10347265,  0.        ]])
             )
 
     def test_pow(self):
         """Pow test from: http://world.std.com/~sweetser/java/qcalc/qcalc.html"""
         np.testing.assert_array_almost_equal(
-            qarray.pow(self.qeasy,3), np.array([[ 0.672,  0.672,  0.224,  0.216]])
+            qarray.pow(self.qeasy,3), np.array([[ 0.672,  0.672,  0.224,  0.216],[ 0.672,  0.672,  0.224,  0.216]])
             )
         np.testing.assert_array_almost_equal(
-            qarray.pow(self.qeasy,.1), np.array([[ 0.03103127,  0.03103127,  0.01034376,  0.99898305]])
+            qarray.pow(self.qeasy,.1), np.array([[ 0.03103127,  0.03103127,  0.01034376,  0.99898305],[ 0.03103127,  0.03103127,  0.01034376,  0.99898305]])
             )
 
 if __name__ == '__main__':
