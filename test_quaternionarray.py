@@ -94,7 +94,20 @@ class TestQuaternionArray(unittest.TestCase):
             qarray.exp(self.qeasy),  np.array([[ 0.71473568,  0.71473568,  0.23824523,  2.22961712]])
             )
 
+    def test_ln(self):
+        """Log test from: http://world.std.com/~sweetser/java/qcalc/qcalc.html"""
+        np.testing.assert_array_almost_equal(
+            qarray.ln(self.qeasy),  np.array([[ 0.31041794,  0.31041794,  0.10347265,  0.        ]])
+            )
 
+    def test_pow(self):
+        """Pow test from: http://world.std.com/~sweetser/java/qcalc/qcalc.html"""
+        np.testing.assert_array_almost_equal(
+            qarray.pow(self.qeasy,3), np.array([[ 0.672,  0.672,  0.224,  0.216]])
+            )
+        np.testing.assert_array_almost_equal(
+            qarray.pow(self.qeasy,.1), np.array([[ 0.03103127,  0.03103127,  0.01034376,  0.99898305]])
+            )
 
 if __name__ == '__main__':
     # better to use nose
