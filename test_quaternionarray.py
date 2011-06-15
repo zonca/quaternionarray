@@ -126,6 +126,16 @@ class TestQuaternionArray(unittest.TestCase):
             qarray.pow(self.qeasy,.1), np.array([[ 0.03103127,  0.03103127,  0.01034376,  0.99898305],[ 0.03103127,  0.03103127,  0.01034376,  0.99898305]])
             )
 
+    def test_torotmat(self):
+        """Rotmat test from Quaternion"""
+        np.testing.assert_array_almost_equal(qarray.to_rotmat(self.qeasy[0]),
+                                            np.array([[  8.00000000e-01,  -2.77555756e-17,   6.00000000e-01],
+                                                   [  3.60000000e-01,   8.00000000e-01,  -4.80000000e-01],
+                                                   [ -4.80000000e-01,   6.00000000e-01,   6.40000000e-01]])
+        )
+
+
+
 if __name__ == '__main__':
     # better to use nose
     unittest.main()

@@ -128,3 +128,14 @@ def rotation(axis, angle):
     except:
         pass
     return np.hstack([np.asarray(axis)*np.sin(angle/2.),np.cos(angle/2.)])
+
+def to_rotmat(q):
+    """Rotation matrix"""
+    s = q[3]
+    v = q[:3]
+    return (s**2 -  np.dot(v,v)) * np.eye(3) + \
+            2 * v[:,None] * v  + \
+            2 * s * np.array([[0    , -q[2], q[1] ],
+                              [q[2] , 0    , -q[0] ],
+                              [-q[1], q[0] , 0     ]])
+                                
