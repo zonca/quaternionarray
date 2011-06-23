@@ -65,7 +65,8 @@ def mult(p, q):
     qv = q[:,:3]
 
     pq = np.empty_like(p)
-    pq[:,3] =  ps * qs - arraylist_dot(pv, qv).flatten()
+    pq[:,3] =  ps * qs 
+    pq[:,3] -= arraylist_dot(pv, qv).flatten()
     pq[:,:3] = ps[:,np.newaxis] * qv 
     pq[:,:3] += pv * qs[:,np.newaxis] 
     pq[:,:3] += np.cross(pv , qv)
@@ -139,3 +140,12 @@ def to_rotmat(q):
                               [q[2] , 0    , -q[0] ],
                               [-q[1], q[0] , 0     ]])
                                 
+
+def from_rotmat(rotmat):
+    r = np.sqrt(1 + rotmat[0,0] - rotmat[1,1] - rotmat[2,2])
+    return np.array([
+        r,
+        (rotmat[0,1] + rotmat[1,0])/r,
+        (rotmat[0,2] + rotmat[2,0])/r,
+        (rotmat[2,1] - rotmat[1,2]) / r
+        ])/2.

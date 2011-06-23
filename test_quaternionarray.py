@@ -134,6 +134,10 @@ class TestQuaternionArray(unittest.TestCase):
                                                    [ -4.80000000e-01,   6.00000000e-01,   6.40000000e-01]])
         )
 
+    def test_fromrotmat(self):
+        np.testing.assert_array_almost_equal(
+            self.qeasy[0], qarray.from_rotmat(qarray.to_rotmat(self.qeasy[0]))
+        )
 
 
 if __name__ == '__main__':
