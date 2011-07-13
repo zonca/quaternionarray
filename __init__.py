@@ -12,6 +12,7 @@ array([[ 0.65587228,  0.53004948,  0.14372156,  0.67375345],
 """
 from __future__ import division
 import numpy as np
+#from IPython.Debugger import Tracer; debug_here = Tracer()
 
 def arraylist_dot(a, b):
     '''Dot product of a lists of arrays, returns a column array'''
@@ -84,6 +85,7 @@ def nlerp(targettime, time, q):
 
 def slerp(targettime, time, q):
     """Slerp, q quaternion array interpolated from time to targettime"""
+    #debug_here()
     i_interp_int, t_matrix = compute_t(targettime, time)
     q_interp = mult(q[np.clip(i_interp_int + 1,0,len(time)-1),:], inv(q[i_interp_int,:]))
     q_interp = pow(q_interp, t_matrix) 
@@ -142,6 +144,7 @@ def to_rotmat(q):
                                 
 
 def from_rotmat(rotmat):
+    rotmat = np.asarray(rotmat)
     r = np.sqrt(1 + rotmat[0,0] - rotmat[1,1] - rotmat[2,2])
     return np.array([
         r,
