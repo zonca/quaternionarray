@@ -105,6 +105,14 @@ class TestQuaternionArray(unittest.TestCase):
             qarray.rotation(np.array([0,0,1]), np.radians(30)),  np.array([0, 0, np.sin(np.radians(15)), np.cos(np.radians(15))])
             )
 
+    def test_rotation(self):
+        axis = np.array([0,0,1])
+        angle = np.radians(30)
+        q = np.array([0, 0, np.sin(np.radians(15)), np.cos(np.radians(15))])
+        qaxis, qangle = qarray.to_axisangle(q)
+        np.testing.assert_array_almost_equal(axis, qaxis)
+        self.assertAlmostEqual(angle, qangle)
+
     def test_exp(self):
         """Exponential test from: http://world.std.com/~sweetser/java/qcalc/qcalc.html"""
         np.testing.assert_array_almost_equal(

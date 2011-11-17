@@ -132,6 +132,14 @@ def rotation(axis, angle):
         pass
     return np.hstack([np.asarray(axis)*np.sin(angle/2.),np.cos(angle/2.)])
 
+def to_axisangle(q):
+    angle = 2 * np.arccos(q[3])
+    if angle == 0:
+        axis = np.zeros(3)
+    else:
+        axis = q[:3] / np.sin(angle/2.)
+    return axis, angle
+
 def to_rotmat(q):
     """Rotation matrix"""
     s = q[3]
@@ -152,3 +160,6 @@ def from_rotmat(rotmat):
         (rotmat[0,2] + rotmat[2,0])/r,
         (rotmat[2,1] - rotmat[1,2]) / r
         ])/2.
+
+def from_vectors(v1, v2):
+    pass
