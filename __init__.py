@@ -162,4 +162,6 @@ def from_rotmat(rotmat):
         ])/2.
 
 def from_vectors(v1, v2):
-    pass
+    v = np.cross(v1, v2)
+    s = np.sqrt(np.linalg.norm(v1)**2 * np.linalg.norm(v2)**2) + np.dot(v1, v2)
+    return norm(np.concatenate([v, [s]]))

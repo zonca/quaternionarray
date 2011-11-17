@@ -105,7 +105,7 @@ class TestQuaternionArray(unittest.TestCase):
             qarray.rotation(np.array([0,0,1]), np.radians(30)),  np.array([0, 0, np.sin(np.radians(15)), np.cos(np.radians(15))])
             )
 
-    def test_rotation(self):
+    def test_toaxisangle(self):
         axis = np.array([0,0,1])
         angle = np.radians(30)
         q = np.array([0, 0, np.sin(np.radians(15)), np.cos(np.radians(15))])
@@ -147,6 +147,13 @@ class TestQuaternionArray(unittest.TestCase):
             self.qeasy[0], qarray.from_rotmat(qarray.to_rotmat(self.qeasy[0]))
         )
 
+    def test_fromvectors(self):
+        axis = np.array([0,0,1])
+        angle = np.radians(30)
+
+        v1 = np.array([1, 0, 0])
+        v2 = np.array([np.cos(angle), np.sin(angle), 0])
+        np.testing.assert_array_almost_equal(qarray.from_vectors(v1, v2), np.array([0, 0, np.sin(np.radians(15)), np.cos(np.radians(15))]))
 
 if __name__ == '__main__':
     # better to use nose
