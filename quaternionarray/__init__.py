@@ -45,7 +45,10 @@ def rotate(q, v):
         qv = np.append(v,0)
     else:
         qv = np.hstack([v,np.zeros((len(v),1))])
-    return mult(mult(q,qv),inv(q))[:,:3]
+    out = mult(q,qv)
+    out = mult(out, inv(q))
+    return out[:,:3]
+
 
 def mult(p, q):
     """Multiply arrays of quaternions,
