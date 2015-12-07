@@ -129,6 +129,7 @@ def pow(q, p):
     
 def rotation(axis, angle):
     """Rotation quaternions of angles [rad] around axes [already normalized]"""
+    axis = np.asarray(axis)
     try:
         angle = angle[:,None]
     except:
