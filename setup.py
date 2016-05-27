@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name="quaternionarray",
-    version="0.6.2dev",
+    version="0.6.2",
 
     packages=['quaternionarray'],
 
@@ -13,7 +13,7 @@ setup(
     description="Python package for fast quaternion arrays math",
     license="GPL3",
     keywords="quaternion, nlerp, rotate",
-    url="http://andreazonca.com/software/quaternion-array/",   # project home page, if any
+    url="http://github.com/zonca/quaternionarray/",   # project home page, if any
     classifiers=[
           'Development Status :: 3 - Alpha',
           'Environment :: Console',
