@@ -23,7 +23,7 @@ def arraylist_dot(a, b):
 
 def inv(q):
     """Inverse of quaternion array q"""
-    return q * np.array([-1,-1,-1,1])
+    return q * np.array([-1,-1,-1,1]) / amplitude(q) ** 2
 
 def amplitude(v):
     return np.sqrt(arraylist_dot(v,v))
